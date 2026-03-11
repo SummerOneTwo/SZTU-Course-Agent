@@ -1,0 +1,53 @@
+[project]
+name = "sztu-course-agent"
+version = "0.1.0"
+description = "智能课程冲突检测与选课方案生成系统"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [
+    {name = "Sisyphus"}
+]
+keywords = ["course-selection", "scheduling", "csp", "ortools", "education"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0.0", "pytest-cov>=4.0.0"]
+
+dependencies = [
+    "pydantic>=2.0.0",
+    "ortools>=9.11.0",
+    "rich>=13.0.0",
+    "tomli-w>=1.0.0",
+]
+
+[project.scripts]
+sztu-agent = "sztu_course_agent.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/yourusername/SZTU-Course-Agent"
+Issues = "https://github.com/yourusername/SZTU-Course-Agent/issues"
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.coverage.run]
+source = ["src"]
+omit = ["*/tests/*"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+]
