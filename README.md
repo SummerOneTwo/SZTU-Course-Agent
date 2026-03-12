@@ -34,8 +34,15 @@ uv sync
 
 ```bash
 cp .env.example .env
-# 编辑 .env 文件，填入您的 OPENAI_API_KEY
+# 编辑 .env 文件，设置 LLM_PROVIDER 和相应的 API Key
 ```
+
+支持的 LLM 提供商：
+- **OpenAI**: `LLM_PROVIDER=openai`, 需要 `OPENAI_API_KEY`
+- **Anthropic Claude**: `LLM_PROVIDER=claude`, 需要 `ANTHROPIC_API_KEY`
+- **Google Gemini**: `LLM_PROVIDER=gemini`, 需要 `GOOGLE_API_KEY`
+- **DeepSeek**: `LLM_PROVIDER=deepseek`, 需要 `DEEPSEEK_API_KEY`
+- **Local (Ollama)**: `LLM_PROVIDER=local`, 无需 API Key，需要运行 Ollama 服务
 
 ## 依赖
 
@@ -43,7 +50,8 @@ cp .env.example .env
 - `ortools>=9.11.0` - Google 约束求解工具
 - `rich>=13.0.0` - 美化 CLI 输出
 - `tomli-w>=1.0.0` - TOML 写入
-- `openai-agents>=0.11.1` - AI Agent (可选)
+- `openai-agents>=0.11.1` - OpenAI Agent SDK
+- `litellm>=1.0.0` - 统一 LLM 接口，支持 100+ 提供商
 - `python-dotenv>=1.2.2` - 环境变量加载
 - `pytest>=8.0.0` - 测试框架
 
@@ -204,6 +212,16 @@ pytest tests/ --cov --cov-report=html
 - 支持跨课程搜索替代方案
 
 ## AI Agent 功能
+
+AI Agent 使用 LiteLLM 作为统一接口，支持多种 LLM 提供商：
+
+- **OpenAI** - GPT-4, GPT-3.5 等
+- **Anthropic Claude** - Claude 3.5 Sonnet, Opus 等
+- **Google Gemini** - Gemini 2.0 Flash, Pro 等
+- **DeepSeek** - DeepSeek Chat/V3
+- **Local Models** - Ollama, vLLM 等本地部署
+
+通过设置 `LLM_PROVIDER` 环境变量即可切换不同的 AI 提供商。
 
 AI Agent 提供以下工具函数：
 

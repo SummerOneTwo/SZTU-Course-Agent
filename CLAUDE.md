@@ -46,6 +46,8 @@ SZTU-Course-Agent/
 │   │   ├── course_loader.py
 │   │   ├── schedule_builder.py
 │   │   └── solution_exporter.py
+│   ├── agent.py             # AI Agent (使用 LiteLLM)
+│   ├── model_config.py      # LLM 模型配置
 │   └── cli.py               # CLI 入口
 ├── tests/                   # 单元测试
 ├── examples/                # 使用示例
@@ -107,6 +109,41 @@ jx0404id = ["JX001", "JX002"]
 - `pydantic>=2.0.0`: 数据验证和模型
 - `rich>=13.0.0`: CLI 格式化
 - `tomli-w>=1.0.0`: TOML 写入
+- `openai-agents>=0.11.1`: OpenAI Agent SDK
+- `litellm>=1.0.0`: 统一 LLM 接口，支持 100+ 提供商
+
+## LLM Provider Configuration
+
+项目使用 LiteLLM 支持多种 LLM 提供商，通过环境变量配置：
+
+### 环境变量
+
+- `LLM_PROVIDER`: 选择提供商 (openai, claude, gemini, deepseek, local)
+- `LLM_MODEL`: 可选，自定义模型名称
+- `OPENAI_API_KEY`: OpenAI API Key
+- `ANTHROPIC_API_KEY`: Anthropic Claude API Key
+- `GOOGLE_API_KEY`: Google Gemini API Key
+- `DEEPSEEK_API_KEY`: DeepSeek API Key
+- `OLLAMA_BASE_URL`: Ollama 服务地址 (默认: http://localhost:11434)
+
+### 使用示例
+
+```bash
+# 使用 OpenAI
+LLM_PROVIDER=openai python -m sztu_course_agent.cli
+
+# 使用 Claude
+LLM_PROVIDER=claude python -m sztu_course_agent.cli
+
+# 使用 Gemini
+LLM_PROVIDER=gemini python -m sztu_course_agent.cli
+
+# 使用 DeepSeek
+LLM_PROVIDER=deepseek python -m sztu_course_agent.cli
+
+# 使用本地模型 (Ollama)
+LLM_PROVIDER=local python -m sztu_course_agent.cli
+```
 
 ## Chinese Time Slot Parsing
 

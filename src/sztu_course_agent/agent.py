@@ -11,6 +11,7 @@ from .core.csp_solver import CSPSolver
 from .core.conflict_detector import ConflictDetector
 from .models.user_preference import Preference
 from .tools.schedule_builder import ScheduleBuilder
+from .model_config import get_model_info, get_base_url, validate_config
 
 # 加载环境变量 (主要用于 OPENAI_API_KEY)
 load_dotenv()
@@ -21,9 +22,27 @@ builder = ScheduleBuilder()
 detector = ConflictDetector()
 
 def get_agent() -> Agent:
-    """初始化并配置课程选择 Agent"""
+    """初始化并配置课程选择 Agent
+
+    Uses LiteLLM for multi-provider support via model parameter.
+    """
+    # Get model configuration
+    model_info = get_model_info()
+
+    # Validate configuration
+    is_valid, error_msg = validate_config()
+    if not is_valid:
+        raise ValueError(f"Invalid LLM configuration: {error_msg}")
+
+    # Get base URL if applicable (for local models like Ollama)
+    base_url = get_base_url()
+
+    # Create OpenAI client with optional custom base URL
+    client = AsyncOpenAI(base_url=base_url) if base_url else AsyncOpenAI()
 
     agent = Agent(
+        model=model_info.model,  # Use LiteLLM model string
+        client=client,
         name="CourseSelectorAgent",
         instructions=(
             "你是一个名为 SZTU 选课助手的智能助手。你可以帮助学生查询课程、检测冲突、生成选课方案以及展示课表。\n"

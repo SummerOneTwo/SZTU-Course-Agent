@@ -17,6 +17,7 @@ import asyncio
 
 try:
     from .agent import get_agent
+    from .model_config import get_model_info, validate_config, get_supported_providers
     AGENT_AVAILABLE = True
 except ImportError:
     AGENT_AVAILABLE = False
@@ -561,8 +562,26 @@ class AgentCLI:
         if not AGENT_AVAILABLE:
             self.console.print("[red]❌ AI 助手模块不可用。请确保已配置好 openai-agents 和 .env 文件。[/red]")
             return
-            
+
+        # Get and display model configuration
+        model_info = get_model_info()
+        is_valid, error_msg = validate_config()
+
+        if not is_valid:
+            self.console.print(f"[red]❌ 配置错误: {error_msg}[/red]")
+            self.console.print("\n[bold]支持的提供商:[/bold]")
+            for provider in get_supported_providers():
+                self.console.print(f"  • {provider}")
+            self.console.print("\n[bold]使用方法:[/bold]")
+            self.console.print("  设置 LLM_PROVIDER 环境变量并配置相应的 API Key")
+            return
+
         self.console.print("\n[bold cyan]=== AI 选课助手聊天模式 ===[/bold cyan]")
+        self.console.print(f"[bold]使用模型:[/bold] {model_info.display_name}\n")
+        if model_info.api_key_env:
+            self.console.print(f"[dim]配置文件: {model_info.api_key_env}[/dim]\n")
+        else:
+            self.console.print("[dim]本地模型 (无需 API Key)[/dim]\n")
         self.console.print("提示: 输入 'exit' 或 'quit' 退出聊天模式\n")
 
         agent = get_agent()
