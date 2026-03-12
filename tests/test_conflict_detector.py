@@ -1,8 +1,8 @@
 """测试冲突检测引擎"""
 import pytest
-from agent.models.course import Course, TimeSlot
-from agent.core.conflict_detector import ConflictDetector
-from agent.models.solution import SelectionSolution
+from sztu_course_agent.models.course import Course, TimeSlot
+from sztu_course_agent.core.conflict_detector import ConflictDetector
+from sztu_course_agent.models.solution import SelectionSolution
 
 
 class TestConflictDetector:

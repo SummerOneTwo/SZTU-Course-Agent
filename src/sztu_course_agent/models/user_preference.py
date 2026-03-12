@@ -49,6 +49,9 @@ class Preference(BaseModel):
     time_pref: TimePreference = Field(default_factory=TimePreference)
     prefer_high_capacity: bool = True
     prefer_not_full: bool = True
+    locked_courses: List[str] = Field(default_factory=list, description="锁定的教学班ID列表，不可被移除")
+    course_priorities: Dict[str, int] = Field(default_factory=dict, description="课程名->优先级(1-10)，用于取舍决策")
+    must_have_courses: List[str] = Field(default_factory=list, description="必选课程名称列表（区别于锁定：锁定是已选定教学班，必选是必须有但可换班）")
 
     def score_course(self, course: "Course") -> float:
         """对课程打分 (0-1)"""

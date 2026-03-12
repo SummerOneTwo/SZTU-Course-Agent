@@ -1,6 +1,6 @@
 """测试时间槽解析器"""
 import pytest
-from agent.core.time_slot_parser import (
+from sztu_course_agent.core.time_slot_parser import (
     parse_weeks,
     parse_day,
     parse_slots,
@@ -8,7 +8,7 @@ from agent.core.time_slot_parser import (
     parse_course_time,
     time_slots_conflict,
 )
-from agent.models.course import TimeSlot
+from sztu_course_agent.models.course import TimeSlot
 
 
 class TestParseWeeks:

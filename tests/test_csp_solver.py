@@ -1,8 +1,8 @@
 """测试 CSP 求解器"""
 import pytest
-from agent.models.course import Course, TimeSlot
-from agent.models.user_preference import Preference
-from agent.core.csp_solver import CSPSolver
+from sztu_course_agent.models.course import Course, TimeSlot
+from sztu_course_agent.models.user_preference import Preference
+from sztu_course_agent.core.csp_solver import CSPSolver
 
 
 class TestCSPSolver:
